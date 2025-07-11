@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinpoint - Automatic Trip Tracking</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAMMOAADDDgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIOMiyqDjIpSg4yKcIOMipqDjIqug4yKwIOMisKDjIqgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIOMiwqDjItIg4yLkIOMi8SDjIvyg4yL/4OMi/+DjIv/g4yL/4OMi/+DjIvsAAAAAAAAAAAAAAAAAAAAAAAAAAB9iYcKe4eGZoOMi8yDjIv8g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/8AAAAAAAAAAAAAAAAAAAAAe4eGIHuHhqJ7h4b6e4eG/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL/wAAAAAAAAAAAAAAAAAAAAB7h4aee4eG/3uHhv97h4b/g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/AAAAAAAAAAAAAAAAAAAAAHuHhsp7h4b/e4eG/3uHhv+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/8AAAAAAAAAAAAAAAAAAAAAe4eG83uHhv97h4b/e4eG/3uHhv97h4b/e4eG/3uHhv97h4b/e4eG/3uHhv97h4b/e4eG/wAAAAAAAAAAAAAAAAAAAAB7h4b/e4eG/3uHhv97h4b/e4eG/3uHhv97h4b/e4eG/3uHhv97h4b/e4eG/3uHhv97h4b/AAAAAAAAAAAAAAAAAAAAAHuHhv97h4b/e4eG/3uHhv97h4b/e4eG/3uHhv97h4b/e4eG/3uHhv97h4b/e4eG/3uHhv8AAAAAAAAAAAAAAAAAAAAAe4eG63uHhv97h4b/e4eG/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL/wAAAAAAAAAAAAAAAAAAAAB7h4bMe4eG/3uHhv97h4b/g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/AAAAAAAAAAAAAAAAAAAAAHuHhoB7h4b8e4eG/3uHhv+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/8AAAAAAAAAAAAAAAAAAAAAB3uHhCJ7h4awe4eG/nuHhv+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL/4OMi/AAAAAAAAAAAAAAAAAAAAAAE3uHhgqAiocye4eGmHuHhvJ7h4b/g4yL/4OMi/+DjIv/g4yL/4OMi/+DjIv/g4yL9AONigAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB7h4YMgIqIKoOMi0iDjIt6g4yLxoOMi/KDjIv8g4yL+oOMi9yDjItYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "pinpoint-blue": "#1E90FF",
+                        "pinpoint-dark-blue": "#0066CC",
+                        "pinpoint-light-blue": "#87CEFA"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1E90FF 0%, #0066CC 100%);
+        }
+        
+        .hero-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+        
+        .hero-wave svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 80px;
+        }
+        
+        .hero-wave .shape-fill {
+            fill: #FFFFFF;
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .app-screenshot {
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="sticky top-0 bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg z-50 shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <img src="assets/logo.svg" alt="Pinpoint Logo" class="h-10 w-auto">
+                    <span class="ml-2 text-xl font-semibold text-pinpoint-dark-blue">Pinpoint</span>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-pinpoint-blue transition-colors">Features</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-pinpoint-blue transition-colors">How It Works</a>
+                    <a href="#privacy" class="text-gray-600 hover:text-pinpoint-blue transition-colors">Privacy</a>
+                </nav>
+                <div>
+                    <a href="#download" class="bg-pinpoint-blue hover:bg-pinpoint-dark-blue text-white rounded-full px-6 py-2 font-medium transition-colors">Download</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative gradient-bg text-white pt-20 pb-32 overflow-hidden">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-4">Track Your Journeys Automatically</h1>
+                    <p class="text-xl opacity-90 mb-8">Pinpoint automatically records your drives and stops without any manual input. Share routes, analyze your travel patterns, and never lose track of where you've been.</p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="https://apps.apple.com/" class="bg-white text-pinpoint-dark-blue hover:bg-opacity-90 font-semibold rounded-full px-8 py-3 flex items-center justify-center transition-colors">
+                            <i class="fab fa-apple text-xl mr-2"></i>
+                            Download on iOS
+                        </a>
+                        <a href="#features" class="border border-white hover:bg-white hover:text-pinpoint-dark-blue font-semibold rounded-full px-8 py-3 flex items-center justify-center transition-colors">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 flex justify-center">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAGQCAYAAAAUdV17AAAACXBIWXMAAAsTAAALEwEAmpwYAAAE8GlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIvPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KPD94cGFja2V0IGVuZD0iciI/PgwfY9MAAAGzSURBVHgB7dQBDQAADMOg+TfducgJJiQSen05zwECBAgQCAQWITlEgAABAgTeBMKQAAECBAiUwCIkhwgQIECAwCIgAQIECBB4BAYiOUSAAAECBBYBCRAgQIDAIzAQySECBAgQILAISIAAAQIEHoGBSA4RIECAAIFFQAIECBAg8AgMRHKIAAECBAgsAhIgQIAAgUdgIJJDBAgQIEBgEZAAAQIECDwCA5EcIkCAAAECi4AECBAgQOARGIjkEAECBAgQWAQkQIAAAQKPwEAkhwgQIECAwCIgAQIECBB4BAYiOUSAAAECBBYBCRAgQIDAIzAQySECBAgQILAISIAAAQIEHoGBSA4RIECAAIFFQAIECBAg8AgMRHKIAAECBAgsAhIgQIAAgUdgIJJDBAgQIEBgEZAAAQIECDwCA5EcIkCAAAECi4AECBAgQOARGIjkEAECBAgQWAQkQIAAAQKPwEAkhwgQIECAwCIgAQIECBB4BAYiOUSAAAECBBYBCRAgQIDAIzAQySECBAgQILAISIAAAQIEHoGBSA4RIECAAIFFQAIECBAg8AgMRHKIAAECBAgsAhIgQIAAgUdgIJJDBAgQIEBgKUt3ONy3I8sAAAAASUVORK5CYII=" alt="Pinpoint App Screenshot" class="app-screenshot max-w-xs mx-auto md:max-w-sm">
+                </div>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Why Choose Pinpoint?</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Our app makes trip tracking effortless with these powerful features</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-md">
+                    <div class="w-14 h-14 bg-pinpoint-blue bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-location-arrow text-2xl text-pinpoint-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Automatic Trip Detection</h3>
+                    <p class="text-gray-600">Pinpoint detects your trips automatically in the background without draining your battery or requiring any manual input.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-md">
+                    <div class="w-14 h-14 bg-pinpoint-blue bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-share-alt text-2xl text-pinpoint-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Easy Route Sharing</h3>
+                    <p class="text-gray-600">Share your routes with friends and family with a simple tap. Recipients can view your journey on any device, no app required.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-md">
+                    <div class="w-14 h-14 bg-pinpoint-blue bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-2xl text-pinpoint-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Detailed Statistics</h3>
+                    <p class="text-gray-600">Track your total miles, trip durations, average speeds, and more with our comprehensive statistics dashboard.</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-md">
+                    <div class="w-14 h-14 bg-pinpoint-blue bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-map-marked-alt text-2xl text-pinpoint-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Interactive Maps</h3>
+                    <p class="text-gray-600">View your trips with detailed, interactive maps showing your exact routes, stops, and points of interest.</p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-md">
+                    <div class="w-14 h-14 bg-pinpoint-blue bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-2xl text-pinpoint-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Privacy Focused</h3>
+                    <p class="text-gray-600">Your location data belongs to you. We employ strong encryption and privacy measures to keep your information secure.</p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-md">
+                    <div class="w-14 h-14 bg-pinpoint-blue bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-battery-full text-2xl text-pinpoint-blue"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Battery Efficient</h3>
+                    <p class="text-gray-600">Our intelligent algorithms minimize battery usage while still capturing accurate location data for your journeys.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Screenshots Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">See Pinpoint in Action</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Explore our intuitive interface and powerful features</p>
+            </div>
+            
+            <div class="flex flex-nowrap overflow-x-auto pb-8 space-x-6 px-4">
+                <div class="flex-none w-64 sm:w-80">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAGQCAYAAAAUdV17AAAACXBIWXMAAAsTAAALEwEAmpwYAAAE8GlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIvPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KPD94cGFja2V0IGVuZD0iciI/PgKYIJkAAAJ2SURBVHja7MExAQAAAMKg9U9tDQ8gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOBjAQcAAYYfGjcAAAAASUVORK5CYII=" alt="Trip List Screen" class="app-screenshot w-full h-auto">
+                    <p class="text-center mt-4 text-gray-700 font-medium">Trip History</p>
+                </div>
+                <div class="flex-none w-64 sm:w-80">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAGQCAYAAAAUdV17AAAACXBIWXMAAAsTAAALEwEAmpwYAAAE8GlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIvPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KPD94cGFja2V0IGVuZD0iciI/PlvyAwMAAAMnSURBVHja7M0xAQAwDMCw7Z9nDYxWwE0BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAaA8X+AAEZkDoEAAAAAElFTkSuQmCC" alt="Trip Detail Screen" class="app-screenshot w-full h-auto">
+                    <p class="text-center mt-4 text-gray-700 font-medium">Trip Details</p>
+                </div>
+                <div class="flex-none w-64 sm:w-80">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAGQCAYAAAAUdV17AAAACXBIWXMAAAsTAAALEwEAmpwYAAAE8GlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIvPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KPD94cGFja2V0IGVuZD0iciI/Pmei8ZcAAALoSURBVHja7MExAQAAAMKg9U9tCF+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABqAQYAAQUA/g1AAAAASUVORK5CYII=" alt="Stationary Location Screen" class="app-screenshot w-full h-auto">
+                    <p class="text-center mt-4 text-gray-700 font-medium">Location Details</p>
+                </div>
+                <div class="flex-none w-64 sm:w-80">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAGQCAYAAAAUdV17AAAACXBIWXMAAAsTAAALEwEAmpwYAAAE8GlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIvPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KPD94cGFja2V0IGVuZD0iciI/PhHO7pUAAAMVSURBVHja7MExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL8BsBQAAQ9ZYfQAAAAASUVORK5CYII=" alt="Profile Screen" class="app-screenshot w-full h-auto">
+                    <p class="text-center mt-4 text-gray-700 font-medium">User Statistics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">How It Works</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Pinpoint makes trip tracking effortless</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6">
+                    <div class="w-20 h-20 bg-pinpoint-blue rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">1</div>
+                    <h3 class="text-xl font-semibold mb-3">Install & Setup</h3>
+                    <p class="text-gray-600">Download the app, grant location permissions, and you're ready to go. No complex configuration needed.</p>
+                </div>
+                
+                <div class="p-6">
+                    <div class="w-20 h-20 bg-pinpoint-blue rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">2</div>
+                    <h3 class="text-xl font-semibold mb-3">Travel Anywhere</h3>
+                    <p class="text-gray-600">Go about your day as usual. Pinpoint works in the background to detect and record your trips automatically.</p>
+                </div>
+                
+                <div class="p-6">
+                    <div class="w-20 h-20 bg-pinpoint-blue rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">3</div>
+                    <h3 class="text-xl font-semibold mb-3">View & Share</h3>
+                    <p class="text-gray-600">Open the app to see your trip history with detailed maps and stats. Share routes with friends with a single tap.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Section -->
+    <section id="privacy" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Your Privacy Matters</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">We take your data privacy and security seriously</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg p-8 max-w-3xl mx-auto">
+                <div class="flex items-start mb-6">
+                    <div class="w-12 h-12 bg-pinpoint-blue bg-opacity-10 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-lock text-xl text-pinpoint-blue"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Local Processing</h3>
+                        <p class="text-gray-600">Your location data is processed locally on your device whenever possible.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-6">
+                    <div class="w-12 h-12 bg-pinpoint-blue bg-opacity-10 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-user-shield text-xl text-pinpoint-blue"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Encrypted Data</h3>
+                        <p class="text-gray-600">All sensitive information is encrypted in transit and at rest using industry-standard protocols.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="w-12 h-12 bg-pinpoint-blue bg-opacity-10 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-share text-xl text-pinpoint-blue"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">You Control Sharing</h3>
+                        <p class="text-gray-600">You decide what trips to share and with whom. We never share your data with third parties without your consent.</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <a href="#" class="text-pinpoint-blue hover:text-pinpoint-dark-blue font-medium">Read our full Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-6">Ready to Track Your Journeys?</h2>
+            <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">Download Pinpoint today and never lose track of where you've been.</p>
+            
+            <div class="inline-flex bg-white text-pinpoint-dark-blue hover:bg-opacity-90 font-semibold rounded-full px-8 py-3 items-center justify-center transition-colors">
+                <i class="fab fa-apple text-xl mr-2"></i>
+                Download on iOS
+            </div>
+            
+            <p class="mt-6 text-sm opacity-80">Requires iOS 14.0 or later. Compatible with iPhone.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-8 md:mb-0">
+                    <div class="flex items-center justify-center md:justify-start">
+                        <img src="assets/logo-white.svg" alt="Pinpoint Logo" class="h-10 w-auto">
+                        <span class="ml-2 text-xl font-semibold">Pinpoint</span>
+                    </div>
+                    <p class="mt-2 text-gray-400">© 2025 Pinpoint. All rights reserved.</p>
+                </div>
+                
+                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-12">
+                    <div>
+                        <h4 class="font-semibold mb-3">App</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
+                            <li><a href="#how-it-works" class="text-gray-400 hover:text-white transition-colors">How It Works</a></li>
+                            <li><a href="#privacy" class="text-gray-400 hover:text-white transition-colors">Privacy</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-3">Legal</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-3">Connect</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple scroll behavior for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === "#") return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
